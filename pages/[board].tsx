@@ -53,7 +53,7 @@ export default function Id_Func () {
                     text: value,
                     title: "todo_1"
                 }]);
-            toast(`todo_${todos.length+1} added`)
+            toast(`Task ${todos.length+1} added`)
         }
     }
 
