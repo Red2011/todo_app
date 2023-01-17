@@ -18,7 +18,6 @@ function MainPage () {
 
 
     const result = arr.map((element, index) => {
-
         return (
 
             <div className="flex flex-col justify-center items-center border-2 rounded mt-3 ml-3 h-28 w-28 rounded-2xl bg-gradient-to-r from-green-400 to-blue-500
@@ -39,6 +38,7 @@ function MainPage () {
     }
 
 
+
     return (
         <>
             <div className="flex justify-center items-center flex-col mt-4">
@@ -46,7 +46,7 @@ function MainPage () {
                     <input id="inp" value={value} onChange={event => setValue(event.target.value)}
                      // обработчик тела инпута
                     maxLength={50} className="outline-cyan-500 ml-2 grow-[3] border-2 w-1 border-amber-500 rounded-2xl pl-2" type="text" placeholder="something..."/>
-                    <button id="button" type="reset" onClick={event => {
+                    <button id="button" type="reset" onClick={() => {
                         if(value!=""){
                             setArr([...arr, value]); toast(`${value} added`)}
                         }}
