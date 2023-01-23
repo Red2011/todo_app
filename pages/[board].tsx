@@ -43,17 +43,21 @@ export default function Id_Func () {
 
     function Add_task (value:string) {
         if(value!="") {
-            if (todos.length > 0)
-            setTodos([...todos, {
-                text: value,
-                title: `todo_${Number(todos[todos.length-1].title.slice(-1))+1}`
-            }]);
-            else
+            if (todos.length > 0) {
+                let regex_title = /-?\d+(\.\d+)?/g;//регулярка, которая выделяет только цифры
+                setTodos([...todos, {
+                    text: value,
+                    title: `todo_${Number(todos[todos.length - 1].title.match(regex_title)) + 1}`
+                }]);
+            }
+            else {
                 setTodos([...todos, {
                     text: value,
                     title: "todo_1"
                 }]);
-            toast(`Task ${todos.length+1} added`)
+            }
+            toast(`Task ${todos.length + 1} added`)
+
         }
     }
 
@@ -71,7 +75,7 @@ export default function Id_Func () {
                 <button className="mr-2 ml-2 grow-[1] text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br
                  focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 shadow-lg
                  shadow-lime-500/50 dark:shadow-lg dark:shadow-lime-800/80 font-medium rounded-lg"
-                        onClick={() => Add_task(value)}>
+                        onClick={() => {Add_task(value); setValue("")}}>
                     Add task
                 </button>
             </div>
@@ -79,11 +83,11 @@ export default function Id_Func () {
                 <ul>
                     {todos.map((task:Todo, index) =>{
                         return (
-                            <li className="mt-1 h-28 w-96 flex justify-center items-center" key={index}>
+                            <li data-testid={task.text} className="mt-1 h-28 w-96 flex justify-center items-center" key={index}>
                                 <div className="rounded-2xl mr-1 h-24 w-[340px] overflow-y-scroll scroll-none p-2 text-center bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 text-white font-semibold">
                                     {task.title}: {task.text}
                                 </div>
-                                <button onClick={() => {Remove_task(index); toast(`${task.title} deleted`)}} title="Remove Task" className="flex items-center justify-center h-8 w-[30px] rounded-[50%] Pastel bg-gradient-to-tr from-violet-500 to-orange-300 animate-pulse">
+                                <button data-testid={`btn-${task.text}`} onClick={() => {Remove_task(index); toast(`${task.title} deleted`)}} title="Remove Task" className="flex items-center justify-center h-8 w-[30px] rounded-[50%] Pastel bg-gradient-to-tr from-violet-500 to-orange-300 animate-pulse">
                                     <div  className="w-[1em] h-[1em] clip-crest bg-neutral-900 cursor-pointer hover:opacity-70"></div>
                                 </button>
                             </li>
