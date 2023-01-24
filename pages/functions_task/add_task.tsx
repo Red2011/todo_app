@@ -1,4 +1,4 @@
-import {Todo} from "../interfaces";
+import Todo from "../interfaceTodo";
 
 export default function Add_task(value:string,todos:Todo[] ){
             if (todos.length > 0) {

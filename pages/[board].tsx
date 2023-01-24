@@ -2,10 +2,10 @@ import React, {useEffect, useState} from "react";
 import {useRouter} from "next/router";
 import BoardList from "./api/BoardList.json";
 import {toast} from "react-toastify";
-import {Remove_task} from "./functions_task/remove_task";
+import Remove_task from "./functions_task/remove_task";
 import Create_task from "./functions_task/create_task";
-import {Todo} from "./interfaces";
 import Add_task from "./functions_task/add_task";
+import Todo from "./interfaceTodo";
 
 
 

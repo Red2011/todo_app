@@ -1,8 +1,7 @@
-import {Todo} from "../interfaces";
+import Todo from "../interfaceTodo";
 
-export function Remove_task(index:number, todos:Todo[]) {
+
+export default function Remove_task(index:number, todos:Todo[]) {
     return [...todos.slice(0, index), ...todos.slice(index + 1)]
-
-
 }
 

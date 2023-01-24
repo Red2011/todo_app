@@ -1,4 +1,4 @@
-import {Board} from "../interfaces";
+import Board from "../interfaceBoard";
 
 export default function Create_board(List_items:Board[]){
     let board:string[] = [];

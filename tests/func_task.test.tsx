@@ -1,7 +1,7 @@
 import {describe, expect, test} from "@jest/globals";
 import Add_task from "../pages/functions_task/add_task";
 import Create_task from "../pages/functions_task/create_task";
-import {Remove_task} from "../pages/functions_task/remove_task";
+import Remove_task from "../pages/functions_task/remove_task";
 
 const task = [
     { "title": "todo_1",
