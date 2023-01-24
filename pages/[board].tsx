@@ -2,6 +2,10 @@ import React, {useEffect, useState} from "react";
 import {useRouter} from "next/router";
 import BoardList from "./api/BoardList.json";
 import {toast} from "react-toastify";
+import {Remove_task} from "./functions_task/remove_task";
+import Create_task from "./functions_task/create_task";
+import {Todo} from "./interfaces";
+import Add_task from "./functions_task/add_task";
 
 
 
@@ -35,35 +39,8 @@ export default function Id_Func () {
         if (!router.isReady) {
             return
         }
-        const currentBoard: Board = BoardList.find(o => o.name === board) as Board
-        if (currentBoard != undefined){
-            setTodos(currentBoard.todo)
-        }
+        setTodos(Create_task(BoardList, String(board)))
     }, [board, router.isReady])
-
-    function Add_task (value:string) {
-        if(value!="") {
-            if (todos.length > 0) {
-                let regex_title = /-?\d+(\.\d+)?/g;//регулярка, которая выделяет только цифры
-                setTodos([...todos, {
-                    text: value,
-                    title: `todo_${Number(todos[todos.length - 1].title.match(regex_title)) + 1}`
-                }]);
-            }
-            else {
-                setTodos([...todos, {
-                    text: value,
-                    title: "todo_1"
-                }]);
-            }
-            toast(`Task ${todos.length + 1} added`)
-
-        }
-    }
-
-    function Remove_task (index:number) {
-        setTodos([...todos.slice(0, index), ...todos.slice(index + 1)]);
-    }
 
     return (
         <div className="m-4 flex flex-col items-center">
@@ -75,7 +52,13 @@ export default function Id_Func () {
                 <button className="mr-2 ml-2 grow-[1] text-gray-900 bg-gradient-to-r from-lime-200 via-lime-400 to-lime-500 hover:bg-gradient-to-br
                  focus:outline-none focus:ring-lime-300 dark:focus:ring-lime-800 shadow-lg
                  shadow-lime-500/50 dark:shadow-lg dark:shadow-lime-800/80 font-medium rounded-lg"
-                        onClick={() => {Add_task(value); setValue("")}}>
+                        onClick={() => {
+                            if (value != "" && value[0] != " "){
+                                setTodos(Add_task(value, todos))
+                                toast(`Task ${todos.length + 1} added`)
+                            }
+                            setValue('')
+                        }}>
                     Add task
                 </button>
             </div>
@@ -87,7 +70,7 @@ export default function Id_Func () {
                                 <div className="rounded-2xl mr-1 h-24 w-[340px] overflow-y-scroll scroll-none p-2 text-center bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 text-white font-semibold">
                                     {task.title}: {task.text}
                                 </div>
-                                <button data-testid={`btn-${task.text}`} onClick={() => {Remove_task(index); toast(`${task.title} deleted`)}} title="Remove Task" className="flex items-center justify-center h-8 w-[30px] rounded-[50%] Pastel bg-gradient-to-tr from-violet-500 to-orange-300 animate-pulse">
+                                <button data-testid={`btn-${task.text}`} onClick={() => {setTodos(Remove_task(index, todos)); toast(`${task.title} deleted`)}} title="Remove Task" className="flex items-center justify-center h-8 w-[30px] rounded-[50%] Pastel bg-gradient-to-tr from-violet-500 to-orange-300 animate-pulse">
                                     <div  className="w-[1em] h-[1em] clip-crest bg-neutral-900 cursor-pointer hover:opacity-70"></div>
                                 </button>
                             </li>
@@ -100,15 +83,7 @@ export default function Id_Func () {
 
 }
 
-export interface Board {
-    name: string,
-    todo: Todo[]
-}
 
-export interface Todo {
-    title: string,
-    text: string
-}
 
 
 
